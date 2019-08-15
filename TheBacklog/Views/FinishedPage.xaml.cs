@@ -26,15 +26,9 @@ namespace TheBacklog.Views
 
         }
 
-        async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
+        async void AddItem_Clicked(object sender, EventArgs e)
         {
-            if (e.Item == null)
-                return;
-
-            await DisplayAlert("Item Tapped", "An item was tapped.", "OK");
-
-            //Deselect Item
-            ((ListView)sender).SelectedItem = null;
+            await Navigation.PushModalAsync(new NavigationPage(new NewItemPage()));
         }
 
         protected override void OnAppearing()

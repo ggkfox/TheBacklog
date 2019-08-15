@@ -26,6 +26,11 @@ namespace TheBacklog.Views
 
         }
 
+        async void AddItem_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new NavigationPage(new NewItemPage()));
+        }
+
         protected override void OnAppearing()
         {
             base.OnAppearing();
