@@ -1,33 +1,29 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+
+using TheBacklog.Models;
+using TheBacklog.Views;
+using TheBacklog.ViewModels;
 
 namespace TheBacklog.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class FinishedPage : ContentPage
     {
-        public ObservableCollection<string> Items { get; set; }
+        FinishedViewModel viewModel;
 
         public FinishedPage()
         {
             InitializeComponent();
 
-            Items = new ObservableCollection<string>
-            {
-                "Item 1",
-                "Item 2",
-                "Item 3",
-                "Item 4",
-                "Item 5"
-            };
+            BindingContext = viewModel = new FinishedViewModel();
 
-            MyListView.ItemsSource = Items;
         }
 
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -39,6 +35,16 @@ namespace TheBacklog.Views
 
             //Deselect Item
             ((ListView)sender).SelectedItem = null;
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            if (viewModel.Items.Count == 0)
+            {
+                viewModel.LoadItemsCommand.Execute(null);
+            }
         }
     }
 }

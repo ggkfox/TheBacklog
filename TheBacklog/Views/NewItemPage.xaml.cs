@@ -22,7 +22,9 @@ namespace TheBacklog.Views
             Item = new Item
             {
                 Text = "Item name",
-                Description = "This is an item description."
+                Description = "This is an item description.",
+                Owned = true,
+                Finished = false
             };
 
             BindingContext = this;

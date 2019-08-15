@@ -17,15 +17,17 @@ namespace TheBacklog.ViewModels
 
         public ItemsViewModel()
         {
-            Title = "Browse";
+            Title = "Log - All";
             Items = new ObservableCollection<Item>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
             MessagingCenter.Subscribe<NewItemPage, Item>(this, "AddItem", async (obj, item) =>
             {
                 var newItem = item as Item;
-                Items.Add(newItem);
-                await DataStore.AddItemAsync(newItem);
+                if (!newItem.Finished)
+                    Items.Add(newItem);
+                if (!await DataStore.HasItemByIdAsync(newItem.Id))
+                    await DataStore.AddItemAsync(newItem);
             });
         }
 
@@ -42,7 +44,7 @@ namespace TheBacklog.ViewModels
                 var items = await DataStore.GetItemsAsync(true);
                 foreach (var item in items)
                 {
-                    Items.Add(item);
+                    if (!item.Finished) Items.Add(item);
                 }
             }
             catch (Exception ex)

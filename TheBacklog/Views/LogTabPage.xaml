@@ -1,7 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="TheBacklog.Views.LogTabPage">
+<TabbedPage NavigationPage.HasNavigationBar="False"
+            BarBackgroundColor="#666"
+            SelectedTabColor="#00ffff"
+            UnselectedTabColor="white"
+            xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:views="clr-namespace:TheBacklog.Views"
+            x:Class="TheBacklog.Views.LogTabPage">
     <!--Pages can be added as references or inline-->
-    <ContentPage Title="Tab 1" />
-    <ContentPage Title="Tab 2" />
-    <ContentPage Title="Tab 3" />
+    <NavigationPage Title="All">
+        <x:Arguments>
+            <views:ItemsPage />
+        </x:Arguments>
+    </NavigationPage>
+    <NavigationPage Title="Owned">
+        <x:Arguments>
+            <views:OwnedPage />
+        </x:Arguments>
+    </NavigationPage>
+    <NavigationPage Title="Wish List">
+        <x:Arguments>
+            <views:WishListPage />
+        </x:Arguments>
+    </NavigationPage>
 </TabbedPage>

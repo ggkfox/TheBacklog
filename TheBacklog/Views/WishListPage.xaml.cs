@@ -1,44 +1,39 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+
+using TheBacklog.Models;
+using TheBacklog.Views;
+using TheBacklog.ViewModels;
 
 namespace TheBacklog.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class WishListPage : ContentPage
     {
-        public ObservableCollection<string> Items { get; set; }
+        WishListViewModel viewModel;
 
         public WishListPage()
         {
             InitializeComponent();
 
-            Items = new ObservableCollection<string>
-            {
-                "Item 1",
-                "Item 2",
-                "Item 3",
-                "Item 4",
-                "Item 5"
-            };
+            BindingContext = viewModel = new WishListViewModel();
 
-            MyListView.ItemsSource = Items;
         }
 
-        async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
+        protected override void OnAppearing()
         {
-            if (e.Item == null)
-                return;
+            base.OnAppearing();
 
-            await DisplayAlert("Item Tapped", "An item was tapped.", "OK");
-
-            //Deselect Item
-            ((ListView)sender).SelectedItem = null;
+            if (viewModel.Items.Count == 0)
+            {
+                viewModel.LoadItemsCommand.Execute(null);
+            }
         }
     }
 }
